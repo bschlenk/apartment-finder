@@ -60,7 +60,7 @@ def scrape_area(area):
         })
 
     results = []
-    gen = cl_h.get_results(sort_by='newest', geotagged=True, limit=20)
+    gen = cl_h.get_results(sort_by='newest', geotagged=True, limit=20, include_details=True)
     while True:
         try:
             result = next(gen)
@@ -139,3 +139,4 @@ def do_scrape():
     # Post each result to slack.
     for result in all_results:
         post_listing_to_slack(result)
+

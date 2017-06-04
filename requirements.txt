@@ -1,4 +1,4 @@
-python-craigslist>=1.0.3
+git+https://github.com/bschlenk/python-craigslist.git
 sqlalchemy
 python-dateutil
 ipython
