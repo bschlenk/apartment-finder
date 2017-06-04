@@ -35,6 +35,7 @@ class Listing(Base):
     area = Column(String)
     pois = Column(String)
     has_all_pois = Column(Boolean)
+    image = Column(String)
 
 
 Base.metadata.create_all(engine)
@@ -98,6 +99,10 @@ def scrape_area(area):
         except Exception:
             pass
 
+        # Set the first image for convenience
+        images = result.get('images', None)
+        result['image'] = images[0] if images else ''
+
         # Create the listing object.
         listing = Listing(
             link=result["url"],
@@ -111,6 +116,7 @@ def scrape_area(area):
             area=result["area"],
             pois=json.dumps(result.get("pois", [])),
             has_all_pois=result.get("has_all_pois", False),
+            image=result['image'],
         )
 
         # Save the listing so we don't grab it again.

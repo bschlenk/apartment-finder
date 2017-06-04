@@ -23,8 +23,13 @@ def post_listing_to_slack(listing):
     """
     desc = template.format_map(listing)
     pois = format_pois(listing['pois'])
+    image = listing['image']
 
-    message = '\n'.join([desc, pois])
+    parts = [desc]
+    if image:
+        parts.append(image)
+    parts += [pois]
+    message = '\n'.join(parts)
 
     CLIENT.api_call(
         "chat.postMessage", channel=settings.SLACK_CHANNEL, text=message,
