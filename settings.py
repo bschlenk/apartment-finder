@@ -1,98 +1,99 @@
 import os
 
-## Price
+# Price
 
 # The minimum rent you want to pay per month.
-MIN_PRICE = 1500
+MIN_PRICE = 0
 
 # The maximum rent you want to pay per month.
 MAX_PRICE = 2000
 
-## Location preferences
+# Whether or not the apartment should allow cats.
+CATS_OKAY = True
+
+# Location preferences
 
 # The Craigslist site you want to search on.
 # For instance, https://sfbay.craigslist.org is SF and the Bay Area.
 # You only need the beginning of the URL.
-CRAIGSLIST_SITE = 'sfbay'
+CRAIGSLIST_SITE = 'seattle'
 
 # What Craigslist subdirectories to search on.
 # For instance, https://sfbay.craigslist.org/eby/ is the East Bay, and https://sfbay.craigslist.org/sfc/ is San Francisco.
 # You only need the last three letters of the URLs.
-AREAS = ["eby", "sfc", "sby", "nby"]
+AREAS = ["see"]
 
 # A list of neighborhoods and coordinates that you want to look for apartments in.  Any listing that has coordinates
 # attached will be checked to see which area it is in.  If there's a match, it will be annotated with the area
 # name.  If no match, the neighborhood field, which is a string, will be checked to see if it matches
 # anything in NEIGHBORHOODS.
 BOXES = {
-    "adams_point": [
-        [37.80789, -122.25000],
-        [37.81589,	-122.26081],
+    "Capitol Hill": [
+        [47.609019, -122.337135],
+        [47.631966, -122.300583],
     ],
-    "piedmont": [
-        [37.82240, -122.24768],
-        [37.83237, -122.25386],
+    "Leschi": [
+        [47.594222, -122.303364],
+        [47.607687, -122.28114],
     ],
-    "rockridge": [
-        [37.83826, -122.24073],
-        [37.84680, -122.25944],
+    "Madrona": [
+        [47.605913, -122.307077],
+        [47.619374, -122.279829],
     ],
-    "berkeley": [
-        [37.86226, -122.25043],
-        [37.86781, -122.26502],
+    "Eastlake": [
+        [47.62651, -122.331797],
+        [47.653478, -122.301865],
     ],
-    "north_berkeley": [
-        [37.86425, -122.26330],
-        [37.87655, -122.28974],
+    "South Lake Union": [
+        [47.615942, -122.347527],
+        [47.642839, -122.328129],
     ],
-    "pac_heights": [
-        [37.79124, -122.42381],
-        [37.79850, -122.44784],
+    "Belltown": [
+        [47.600607, -122.36392],
+        [47.620657, -122.327271],
     ],
-    "lower_pac_heights": [
-        [37.78554, -122.42878],
-        [37.78873, -122.44544],
+    "First Hill": [
+        [47.601266, -122.335145],
+        [47.614995, -122.308409],
     ],
-    "haight": [
-        [37.77059, -122.42688],
-        [37.77086, -122.45401],
+    "Queen Anne": [
+        [47.616889, -122.378769],
+        [47.647696, -122.345831],
     ],
-    "sunset": [
-        [37.75451, -122.46422],
-        [37.76258, -122.50825],
+    "Freemont": [
+        [47.643996, -122.362547],
+        [47.661861, -122.331133],
     ],
-    "richmond": [
-        [37.77188, -122.47263],
-        [37.78029, -122.51005],
-    ],
-    "presidio": [
-        [37.77805, -122.43959],
-        [37.78829, -122.47151],
-    ]
 }
 
 # A list of neighborhood names to look for in the Craigslist neighborhood name field. If a listing doesn't fall into
 # one of the boxes you defined, it will be checked to see if the neighborhood name it was listed under matches one
 # of these.  This is less accurate than the boxes, because it relies on the owner to set the right neighborhood,
 # but it also catches listings that don't have coordinates (many listings are missing this info).
-NEIGHBORHOODS = ["berkeley north", "berkeley", "rockridge", "adams point", "oakland lake merritt", "cow hollow", "piedmont", "pac hts", "pacific heights", "lower haight", "inner sunset", "outer sunset", "presidio", "palo alto", "richmond / seacliff", "haight ashbury", "alameda", "twin peaks", "noe valley", "bernal heights", "glen park", "sunset", "mission district", "potrero hill", "dogpatch"]
+NEIGHBORHOODS = []
 
-## Transit preferences
+# Points of interest
 
-# The farthest you want to live from a transit stop.
-MAX_TRANSIT_DIST = 2 # kilometers
+# Distance is measured in feet
+POINTS_OF_INTEREST = [
+    {
+        "type": "grocery_or_supermarket",
+        "max_distance": 5280,
+    },
+    {
+        "location": (47.624175, -122.338894),
+        "name": "Brian's office",
+        "max_duration": None,  # 2700,
+    },
+    {
+        "location": (47.645383, -122.325724),
+        "name": "Paige's office",
+        "max_duration": None,  # 2700,
+    }
+]
 
-# Transit stations you want to check against.  Every coordinate here will be checked against each listing,
-# and the closest station name will be added to the result and posted into Slack.
-TRANSIT_STATIONS = {
-    "oakland_19th_bart": [37.8118051,-122.2720873],
-    "macarthur_bart": [37.8265657,-122.2686705],
-    "rockridge_bart": [37.841286,-122.2566329],
-    "downtown_berkeley_bart": [37.8629541,-122.276594],
-    "north_berkeley_bart": [37.8713411,-122.2849758]
-}
 
-## Search type preferences
+# Search type preferences
 
 # The Craigslist section underneath housing that you want to search in.
 # For instance, https://sfbay.craigslist.org/search/apa find apartments for rent.
@@ -100,12 +101,12 @@ TRANSIT_STATIONS = {
 # You only need the last 3 letters of the URLs.
 CRAIGSLIST_HOUSING_SECTION = 'apa'
 
-## System settings
+# System settings
 
 # How long we should sleep between scrapes of Craigslist.
 # Too fast may get rate limited.
 # Too slow may miss listings.
-SLEEP_INTERVAL = 20 * 60 # 20 minutes
+SLEEP_INTERVAL = 20 * 60  # 20 minutes
 
 # Which slack channel to post the listings into.
 SLACK_CHANNEL = "#housing"
@@ -113,6 +114,9 @@ SLACK_CHANNEL = "#housing"
 # The token that allows us to connect to slack.
 # Should be put in private.py, or set as an environment variable.
 SLACK_TOKEN = os.getenv('SLACK_TOKEN', "")
+
+# The token thtat allows us to make requests to google maps.
+GOOGLE_MAPS_TOKEN = os.getenv('GOOGLE_MAPS_TOKEN', '')
 
 # Any private settings are imported here.
 try:
