@@ -35,6 +35,8 @@ class Listing(Base):
     area = Column(String)
     pois = Column(String)
     has_all_pois = Column(Boolean)
+    keywords = Column(String)
+    has_required_keywords = Column(Boolean)
     image = Column(String)
 
 
@@ -92,6 +94,22 @@ def scrape_area(area):
         else:
             result["area"] = ""
 
+        # Check for existing keywords if the result has a body
+        has_required_keywords = True
+        matching_keywords = []
+        if 'body' in result:
+            body = result['body'].lower()
+            for name, keyword_config in settings.KEYWORDS.items():
+                keywords = keyword_config['keywords']
+                required = keyword_config.get('required', False)
+
+                if any(map(lambda x: x.lower() in body, keywords)):
+                    matching_keywords.append(name)
+                elif required:
+                    has_required_keywords = False
+
+        result['keywords'] = matching_keywords
+
         # Try parsing the price.
         price = 0
         try:
@@ -116,7 +134,9 @@ def scrape_area(area):
             area=result["area"],
             pois=json.dumps(result.get("pois", [])),
             has_all_pois=result.get("has_all_pois", False),
-            image=result['image'],
+            keywords=','.join(matching_keywords),
+            has_required_keywords=has_required_keywords,
+            image=result['image']
         )
 
         # Save the listing so we don't grab it again.
@@ -124,8 +144,8 @@ def scrape_area(area):
         session.commit()
 
         # Return the result if it is in a defined area
-        # and it meets the criteria of all confiured pois.
-        if result["area"] and result["has_all_pois"]:
+        # and it meets the criteria of all configured pois.
+        if result["area"] and result["has_all_pois"] and has_required_keywords:
             results.append(result)
 
     return results

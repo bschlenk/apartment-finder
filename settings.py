@@ -93,6 +93,26 @@ POINTS_OF_INTEREST = [
 ]
 
 
+# Keywords
+
+# Keywords to look for within the body of the listing.
+# The key in the map is used in the slack message for any
+# keyword found in the list. Required can be set to false
+# to still show a listing that doesn't include the keyword,
+# but include extra information.
+
+KEYWORDS = {
+    "gym": {
+        "keywords": ["gym", "fitness", "fitnesscenter"],
+        "required": False,
+    },
+    "pool": {
+        "keywords": ["swimming", "pool", "swimmingpool"],
+        "required": False,
+    },
+}
+
+
 # Search type preferences
 
 # The Craigslist section underneath housing that you want to search in.
