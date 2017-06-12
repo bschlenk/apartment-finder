@@ -3,7 +3,7 @@ from slackclient import SlackClient
 
 CLIENT = SlackClient(settings.SLACK_TOKEN)
 
-template = "{area} | {price} | <{url}|{name}>"
+template = "{area} | {price} | {size} | <{url}|{name}>"
 poi_template = "* {duration} walk to {name}"
 keyword_template = "* mentions {}"
 
@@ -27,6 +27,12 @@ def post_listing_to_slack(listing):
     Posts the listing to slack.
     :param listing: A record of the listing.
     """
+    size = listing.get('size', None)
+    if size is not None:
+        size = '{} {}'.format(size[0], size[1])
+    else:
+        size = 'Size not listed'
+    listing['size'] = size
     desc = template.format_map(listing)
     keywords = format_keywords(listing['keywords'])
     pois = format_pois(listing['pois'])

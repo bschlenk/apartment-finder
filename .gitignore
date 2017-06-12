@@ -71,6 +71,7 @@ target/
 
 # pyenv
 .python-version
+.venv
 
 # celery beat schedule file
 celerybeat-schedule
@@ -92,3 +93,4 @@ ENV/
 .idea/
 private.py
 listings.db
+

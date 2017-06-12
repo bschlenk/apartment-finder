@@ -143,6 +143,14 @@ def scrape_area(area):
         session.add(listing)
         session.commit()
 
+        # Check that the apartment is available before the configured date.
+        # If the listing doesn't mention availability, include it anyway.
+        if settings.LATEST_AVAILABILITY is not None:
+            available_on = result.get('available_on', None)
+            if available_on is not None:
+                if available_on.date() > settings.LATEST_AVAILABILITY:
+                    continue
+
         # Return the result if it is in a defined area
         # and it meets the criteria of all configured pois.
         if result["area"] and result["has_all_pois"] and has_required_keywords:

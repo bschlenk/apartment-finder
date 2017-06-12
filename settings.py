@@ -1,4 +1,5 @@
 import os
+import datetime
 
 # Price
 
@@ -19,14 +20,16 @@ CATS_OKAY = True
 CRAIGSLIST_SITE = 'seattle'
 
 # What Craigslist subdirectories to search on.
-# For instance, https://sfbay.craigslist.org/eby/ is the East Bay, and https://sfbay.craigslist.org/sfc/ is San Francisco.
+# For instance, https://sfbay.craigslist.org/eby/ is the East Bay,
+# and https://sfbay.craigslist.org/sfc/ is San Francisco.
 # You only need the last three letters of the URLs.
 AREAS = ["see"]
 
-# A list of neighborhoods and coordinates that you want to look for apartments in.  Any listing that has coordinates
-# attached will be checked to see which area it is in.  If there's a match, it will be annotated with the area
-# name.  If no match, the neighborhood field, which is a string, will be checked to see if it matches
-# anything in NEIGHBORHOODS.
+# A list of neighborhoods and coordinates that you want to look for
+# apartments in. Any listing that has coordinates attached will be checked
+# to see which area it is in.  If there's a match, it will be annotated with
+# the area name. If no match, the neighborhood field, which is a string,
+# will be checked to see if it matches anything in NEIGHBORHOODS.
 BOXES = {
     "Capitol Hill": [
         [47.609019, -122.337135],
@@ -89,7 +92,12 @@ POINTS_OF_INTEREST = [
         "location": (47.645383, -122.325724),
         "name": "Paige's office",
         "max_duration": None,  # 2700,
-    }
+    },
+    {
+        "location": (47.619773, -122.353754),
+        "name": "Dustliz",
+        "max_duration": None,
+    },
 ]
 
 
@@ -111,6 +119,10 @@ KEYWORDS = {
         "required": False,
     },
 }
+
+# Only show apartments who's availability is on or before this date.
+# Set to None to show all apartments regardless of availability.
+LATEST_AVAILABILITY = datetime.date(2017, 6, 25)
 
 
 # Search type preferences
